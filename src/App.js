@@ -1,13 +1,5 @@
 import { useState } from "react";
 
-export default function App() {
-  return (
-    <div className="App">
-      <FlashCards />
-    </div>
-  );
-}
-
 const questions = [
   {
     id: 3457,
@@ -42,6 +34,14 @@ const questions = [
   },
 ];
 
+export default function App() {
+  return (
+    <div className="App">
+      <FlashCards />
+    </div>
+  );
+}
+
 function FlashCards() {
   const [selectedId, setSelectedId] = useState(null);
 
@@ -66,52 +66,46 @@ function FlashCards() {
   );
 }
 
-/* function FlashCards() {
+///alternatif bir çözüm - prop kullanarak
+
+/* export default function App() {
+  return (
+    <div className="App">
+      <FlashCards data={questions} />
+    </div>
+  );
+}
+
+function FlashCards({ data }) {
   const [selectedId, setSelectedId] = useState(null);
 
-  function handleClick(id) {
-    setSelectedId(id !== selectedId ? id : null);
+  function handleSelect(id) {
+    setSelectedId(id === selectedId ? null : id);
   }
 
   return (
     <div className="flashcards">
-      {questions.map((question) => (
-        <div
-          onClick={() => handleClick(question.id)}
-          key={question.id}
-          className={question.id === selectedId ? "selected" : ""}
-        >
-          <p>
-            {question.id === selectedId ? question.answer : question.question}
-          </p>
-        </div>
+      {data.map((element) => (
+        <FlashCardItem
+          id={element.id}
+          question={element.question}
+          answer={element.answer}
+          selectedId={selectedId}
+          onSelect={handleSelect}
+          key={element.id}
+        />
       ))}
     </div>
   );
+}
+
+function FlashCardItem({ id, question, answer, selectedId, onSelect }) {
+  return (
+    <div
+      onClick={() => onSelect(id)}
+      className={selectedId === id ? "selected" : ""}
+    >
+      <p>{selectedId === id ? answer : question}</p>
+    </div>
+  );
 } */
-
-// function FlashCards() {
-//   return (
-//     <div className="flashcards">
-//       {questions.map((item) => (
-//         <FlashCard flashCardObj={item} key={item.id} />
-//       ))}
-//     </div>
-//   );
-// }
-
-// function FlashCard({ flashCardObj }) {
-//   const [isSelected, setIsSelected] = useState(false);
-
-//   return (
-//     <div
-//       onClick={() => {
-//         setIsSelected(!isSelected);
-//       }}
-//       className={isSelected ? "selected" : ""}
-//       id={flashCardObj.id}
-//     >
-//       {isSelected ? flashCardObj.answer : flashCardObj.question}
-//     </div>
-//   );
-// }
